@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Webpage</title>
+    <!-- Include Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <!-- Modify background color -->
+    <style>
+      body {
+        background-color: rgb(255, 255, 0);
+      }
+      .movie-info {
+        background-color: darkgreen;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: white;
+      }
+      .centered-div {
+        text-align: center;
+      }
+      .navbar {
+        min-height: 15px !important;
+      }
+      #bottom-navbar {
+        display: none;
+      }
+      .btn-outline-primary {
+        color: rgb(255, 255, 0);
+        border-color: rgb(255, 255, 0);
+      }
+      .btn-outline-primary.text-primary:hover {
+        background-color: yellow;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Include Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <a class="navbar-brand" href="#" style="color: rgb(255, 255, 000)"
+        >My Movie Website</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mr-auto">
+          <!-- add any additional links you want here -->
+        </ul>
+          <button
+          class="btn btn-outline-success my-2 my-sm-0 mr-2 text-primary"
+          type="button"
+          data-toggle="modal"
+          data-target="#loginModal"
+          >
+            Log In
+          </button>
+          <button
+            class="btn btn-outline-primary my-2 my-sm-0 mr-2 text-primary"
+            type="button"
+            data-toggle="modal"
+            data-target="#registerModal"
+          >
+            Register
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Log In Modal -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- add your login form here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div
+      class="modal fade"
+      id="registerModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="registerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">Register</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- add your registration form here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container text-center">
+      <h1>Hello Chad!</h1>
+      <p>Welcome to my website. here we can see some movies I like</p>
+    </div>
+
+    <div class="container">
+      {% for movie in movie_list %}
+      <div class="movie-info">
+        <h3>
+          <a href="{% url 'movie_detail' movie.id %}">{{ movie.name }}</a>
+        </h3>
+        <p>Year: {{ movie.year }}</p>
+        <p>Description: {{ movie.desc }}</p>
+        <img src="{{ movie.image.url }}" alt="{{ movie.name }}" width="300" />
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Add fixed-bottom bar -->
+    <nav id="bottom-navbar" class="navbar fixed-bottom navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Thanks For Visiting</a>
+    </nav>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+      window.addEventListener("scroll", function () {
+        const scrollHeight = document.body.scrollHeight;
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const bottomNavbar = document.getElementById("bottom-navbar");
+
+        if (scrollPosition >= scrollHeight) {
+          bottomNavbar.style.display = "block";
+        } else {
+          bottomNavbar.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
