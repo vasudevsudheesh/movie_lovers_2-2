@@ -3,10 +3,12 @@
   <head>
     <title>My Webpage</title>
     <!-- Include Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Modify background color -->
     <style>
       body {
@@ -34,7 +36,15 @@
       .btn-outline-primary.text-primary:hover {
         background-color: yellow;
       }
-
+      .btn-outline-red {
+        color: red;
+        border-color: red;
+      }
+      
+      .btn-outline-red.text-primary:hover {
+        background-color: red;
+      }
+      
     </style>
   </head>
   <body>
@@ -59,90 +69,38 @@
         <ul class="navbar-nav mr-auto">
           <!-- add any additional links you want here -->
         </ul>
-          <button
-          class="btn btn-outline-success my-2 my-sm-0 mr-2 text-primary"
-          type="button"
-          data-toggle="modal"
-          data-target="#loginModal"
-          >
-            Log In
-          </button>
-          <button
-            class="btn btn-outline-primary my-2 my-sm-0 mr-2 text-primary"
-            type="button"
-            data-toggle="modal"
-            data-target="#registerModal"
-          >
-            Register
-          </button>
+        {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="POST">
+          {% csrf_token %}
+          <button type="button" class="btn btn-secondary btn-blue" onclick="window.location.href = '{% url 'add_movie' %}'">Add a movie</button>
+          <button type="submit" class="btn btn-outline-primary btn-outline-red my-2 my-sm-0 mr-2 text-primary">Logout</button>
+        </form>
+      {% else %}
+        <button class="btn btn-outline-success my-2 my-sm-0 mr-2 text-primary" type="button" data-toggle="modal" data-target="#loginModal">
+          <a href="{% url 'login' %}">Log In</a>
+        </button>
+        <button class="btn btn-outline-primary my-2 my-sm-0 mr-2 text-primary" type="button" data-toggle="modal" data-target="#registerModal">
+          <a href="{% url 'signup' %}">Register</a>
+        </button>
+      {% endif %}
+      
         </div>
       </div>
     </nav>
 
-    <!-- Log In Modal -->
-    <div
-      class="modal fade"
-      id="loginModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="loginModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Log In</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- add your login form here -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Registration Modal -->
-    <div
-      class="modal fade"
-      id="registerModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="registerModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="registerModalLabel">Register</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- add your registration form here -->
-          </div>
-        </div>
-      </div>
-    </div>
+ 
 
     <!-- Content -->
     <div class="container text-center">
-      <h1>Hello Chad!</h1>
-      <p>Welcome to my website. here we can see some movies I like</p>
+      <div class="container text-center">
+        {% if user.is_authenticated %}
+        <h3>Hello Chad! {{ user.username }}!</h3>
+        {% else %}
+        <h1>Hello Chad! </h1>
+        <h3>Welcome to my website. here we can see some movies I like</h3>
+        {% endif %}
+      </div>
     </div>
-
     <div class="container">
       {% for movie in movie_list %}
       <div class="movie-info">
