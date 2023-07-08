@@ -10,5 +10,3 @@ urlpatterns = [
     path("add_movie", views.add_movie, name="add_movie"),
     path("movies/<int:movie_id>/delete/", views.delete_movie, name="delete_movie"),
 ]
-git config --global user.email "sudheeshyft@gmail.com.com"
-git config --global user.name "sudheesh vasudev"
