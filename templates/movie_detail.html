@@ -1,6 +1,13 @@
 <div>
-    <h2>{{movie.name}}</h2>
-    <p>Year: {{movie.year}}</p>
-    <p>Description: {{movie.desc}}</p>
-  </div>
-  
+  <h2>{{movie.name}}</h2>
+  <p>Year: {{movie.year}}</p>
+  <p>Description: {{movie.desc}}</p>
+</div>
+
+
+<h2>Delete Movie</h2>
+<p>Are you sure you want to delete "{{ movie.name }}"?</p>
+<form method="post">
+  {% csrf_token %}
+  <input type="submit" value="Delete">
+</form>
