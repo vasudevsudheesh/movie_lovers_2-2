@@ -9,6 +9,10 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Modify background color -->
     <style>
         body {
@@ -57,14 +61,23 @@
         .movie-image {
             width: 100%;
             height: 300px;
-            object-fit: cover;
-        }
+            object-fit: cover; }
+        .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
     </style>
 </head>
 <body>
     <!-- Include Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <a class="navbar-brand" href="#" style="color: rgb(255, 255, 0)">My Movie Website</a>
+        <a class="navbar-brand" href="#" style="color: rgb(255, 255, 0)">Movie Lovers</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -87,59 +100,82 @@
                 <a href="{% url 'signup' %}">Register</a>
             </button>
             {% endif %}
+
+
+
+                    <button type="button" class="btn btn-secondary btn-blue" onclick="window.location.href = '{% url 'add_movie' %}'">Add a movie</button
+                    <a href="https://m.youtube.com" target="_blank" class="button" style="background-color: #ff0000; color: white;" onclick="window.open('https://m.youtube.com', '_blank')">Youtube</a>
+                    <br>
+                    <a href="https://t.me/+WUE5dpDaGG1TPbxb" target="_blank" class="button" style="background-color: #0088cc; color: white;" onclick="window.open('https://t.me/+WUE5dpDaGG1TPbxb', '_blank')">Telegram</a>
+
+
+
+
         </div>
     </nav>
 
-    <!-- Content -->
+ <!-- Content -->
+<div class="container text-center">
     <div class="container text-center">
-        <div class="container text-center">
-            {% if user.is_authenticated %}
-            <h3>Hello Chad! {{ user.username }}!</h3>
-            {% else %}
-            <h1>Hello Chad! </h1>
-            <h3>Welcome to my website. Here we can see some movies I like</h3>
-            {% endif %}
-        </div>
+        {% if user.is_authenticated %}
+        <h3>Hello Chad! {{ user.username }}!</h3>
+        {% else %}
+        <h1>Hello Chad! </h1>
+        <h3>Welcome to my website. Here we can see some movies I like</h3>
+        {% endif %}
     </div>
+</div>
 
-    <div class="container">
-        <div class="row">
-            {% for movie in movie_list %}
-            <div class="col-lg-4 col-md-6">
-                <div class="movie-info">
-                    <h3>
-                        <a href="{% url 'movie_detail' movie.id %}">{{ movie.name }}</a>
-                    </h3>
-                    <p>Year: {{ movie.year }}</p>
-                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#descriptionModal{{ movie.id }}">
-                        Show Description
-                    </button>
-                    <div class="modal fade" id="descriptionModal{{ movie.id }}" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel{{ movie.id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="descriptionModalLabel{{ movie.id }}">{{ movie.name }}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>{{ movie.desc }}</p>
-                                </div>
+<div class="container">
+    <div class="row">
+        {% for movie in movie_list %}
+        <div class="col-lg-4 col-md-6">
+            <div class="movie-info">
+                <img src="{{ movie.image.url }}" alt="{{ movie.name }}" class="movie-image" />
+
+                <h3>
+                    <a href="{% url 'movie_detail' movie.id %}">{{ movie.name }}</a>
+                </h3>
+                <p>Year: {{ movie.year }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#descriptionModal{{ movie.id }}">
+                            Show Description
+                        </button>
+                    </div>
+                    <div class="btn-group" >
+                        <a href="{% url 'edit_movie' movie.id %}" class="btn btn-warning">Edit Movie</a>
+                        <a href="{% url 'movie_list' %}" class="btn btn-info">View Movies</a>
+                        <a href="{% url 'delete_movie' movie.id %}" class="btn btn-danger text-center">Delete </a>
+                    </div>                    
+                </div>
+                <div class="modal fade" id="descriptionModal{{ movie.id }}" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel{{ movie.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="descriptionModalLabel{{ movie.id }}">{{ movie.name }} Description</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{ movie.desc }}</p>
                             </div>
                         </div>
                     </div>
-                    <img src="{{ movie.image.url }}" alt="{{ movie.name }}" class="movie-image" />
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
+</div>
 
-    <!-- Add fixed-bottom bar -->
-    <nav id="bottom-navbar" class="navbar fixed-bottom navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Thanks For Visiting</a>
-    </nav>
+<!-- Offcanvas Sidebar -->
+
+<!-- Add fixed-bottom bar -->
+<nav id="bottom-navbar" class="navbar fixed-bottom navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Thanks For Visiting</a>
+</nav>
 
     <!-- Include Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
